@@ -1,0 +1,26 @@
+---
+title: "Supplementary Figure 8"
+author: "Nick Pokorzynski"
+date: "6/28/2020"
+output: word_document
+---
+
+```{r}
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 8")
+library(ggplot2)
+library(ggpubr)
+chip<-read.csv("SFig8_06282020.csv")
+chip$Promoter2<-factor(chip$Promoter, levels=c("PtrpR", "PtrpBA", "PytgA", "Peuo", "PdnaB"))
+chip$Treatment2<-factor(chip$Treatment, levels=c("Trp+", "Trp-"))
+ggbarplot(chip, x="Treatment2", y="Fold_Enrichment", add=c("mean_sd", "point"), error.plot="upper_errorbar", color="black", fill="Treatment2", palette=c("steelblue4", "steelblue1"), facet.by="Promoter2", ncol=5) + scale_y_continuous(expand=expand_scale(mult=c(0, 0.1))) + ylab(label="Fold Enrichment") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + stat_compare_means(comparisons=list(c("Trp+", "Trp-")), label="p.signif", method="t.test", label.y=30)
+PtrpR<-subset(chip, Promoter%in%c("PtrpR"))
+PtrpBA<-subset(chip, Promoter%in%c("PtrpBA"))
+PytgA<-subset(chip, Promoter%in%c("PytgA"))
+Peuo<-subset(chip, Promoter%in%c("Peuo"))
+PdnaB<-subset(chip, Promoter%in%c("PdnaB"))
+t.test(Fold_Enrichment~Treatment, data=PtrpR)
+t.test(Fold_Enrichment~Treatment, data=PtrpBA)
+t.test(Fold_Enrichment~Treatment, data=PytgA)
+t.test(Fold_Enrichment~Treatment, data=Peuo)
+t.test(Fold_Enrichment~Treatment, data=PdnaB)
+```

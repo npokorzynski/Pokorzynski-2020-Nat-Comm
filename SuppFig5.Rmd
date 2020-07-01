@@ -1,0 +1,36 @@
+---
+title: "Supplementary Figure 5"
+author: "Nick Pokorzynski"
+date: "4/16/2020"
+output: word_document
+---
+
+```{r}
+#Supplementary Figure 4a
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 5")
+library(ggplot2)
+library(ggpubr)
+an<-read.csv("SuppFig5a.csv")
+an$Condition2<-factor(an$Condition, levels=c("Mock", "AN"))
+an$Vector2<-factor(an$Vector, levels=c("EV", "WWW", "YYF"))
+anaov<-aov(OD~Condition+Vector+Condition:Vector, data=an)
+summary(anaov)
+TukeyHSD(x=anaov)
+p<-ggbarplot(an, x="Vector2", y="OD", add=c("mean_sd", "point"), fill="Condition2", palette=c("orchid4", "orchid1"), title="AN3365", position = position_dodge()) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="OD600") + rremove("xlab") + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5')) + geom_signif(y_position = c(0.9, 0.9, 0.9), xmin = c(0.75, 1.75, 2.75), xmax = c(1.25, 2.25, 3.25), annotation = c("***", "ns", "*"), tip_length = .05) + theme(legend.title=element_blank())
+ggpar(p, legend=c("right"))
+```
+
+```{r}
+#Supplementary Figure 4b
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 5")
+library(ggplot2)
+library(ggpubr)
+ind<-read.csv("SuppFig5b.csv")
+ind$Condition2<-factor(ind$Condition, levels=c("Mock", "Ind"))
+ind$Vector2<-factor(ind$Vector, levels=c("EV", "WWW", "YYF"))
+indaov<-aov(OD~Condition+Vector+Condition:Vector, data=ind)
+summary(indaov)
+TukeyHSD(x=indaov)
+p<-ggbarplot(ind, x="Vector2", y="OD", add=c("mean_sd", "point"), fill="Condition2", palette=c("mediumpurple4", "mediumpurple1"), title="Indolmycin", position = position_dodge()) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="OD600") + rremove("xlab") + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5')) + geom_signif(y_position = c(1.1, 1.1, 1.1), xmin = c(0.75, 1.75, 2.75), xmax = c(1.25, 2.25, 3.25), annotation = c("ns", "*", "ns"), tip_length = .05) + theme(legend.title=element_blank())
+ggpar(p, legend=c("right"))
+```

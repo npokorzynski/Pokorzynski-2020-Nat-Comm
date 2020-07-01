@@ -1,0 +1,90 @@
+---
+title: "Figure 4"
+author: "Nick Pokorzynski"
+date: "4/16/2020"
+output: word_document
+---
+
+```{r}
+#Fig4b
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 4")
+library(ggplot2)
+library(ggpubr)
+x<-read.csv("Fig4b.csv")
+x$Treatment2<-factor(x$Treatment, levels=c("UTD", "Ind", "IFNg"))
+#subset values for each gene for statistical analysis
+CTL0174<-subset(x, Gene%in%c("CTL0174"))
+GroEL_1<-subset(x, Gene%in%c("GroEL_1"))
+OmpA<-subset(x, Gene%in%c("OmpA"))
+YtgCR<-subset(x, Gene%in%c("YtgCR"))
+#assign analysis of variance to variable
+ctlaov<-aov(Value~Treatment, data=CTL0174)
+#summarize results of aov
+summary(ctlaov)
+#compute Tukey's Honestly Significant Differences multiple comparisons test
+TukeyHSD(x=ctlaov)
+#repeat for each gene
+groaov<-aov(Value~Treatment, data=GroEL_1)
+summary(groaov)
+TukeyHSD(x=groaov)
+ompaov<-aov(Value~Treatment, data=OmpA)
+summary(ompaov)
+TukeyHSD(x=ompaov)
+ytgcaov<-aov(Value~Treatment, data=YtgCR)
+summary(ytgcaov)
+TukeyHSD(x=ytgcaov)
+#Plot each gene individually w/ annotated significance for TukeyHSD
+#CTL0174
+ggbarplot(CTL0174, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("steelblue4", "steelblue3", "steelblue2"), title="CTL0174") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=CTL0174, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("UTD", "Ind"), c("UTD", "IFNg"), c("Ind", "IFNg")), annotation=c("ns", "ns", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#YtgCR
+ggbarplot(YtgCR, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("steelblue4", "steelblue3", "steelblue2"), title="YtgCR") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=YtgCR, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("UTD", "Ind"), c("UTD", "IFNg"), c("Ind", "IFNg")), annotation=c("***", "*", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#OmpA
+ggbarplot(OmpA, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("steelblue4", "steelblue3", "steelblue2"), title="OmpA") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=OmpA, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("UTD", "Ind"), c("UTD", "IFNg"), c("Ind", "IFNg")), annotation=c("ns", "ns", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#GroEL_1
+ggbarplot(GroEL_1, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("steelblue4", "steelblue3", "steelblue2"), title="GroEL_1") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=GroEL_1, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("UTD", "Ind"), c("UTD", "IFNg"), c("Ind", "IFNg")), annotation=c("ns", "ns", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+```
+
+```{r}
+#Fig4c
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 4")
+library(ggplot2)
+library(ggpubr)
+x<-read.csv("Fig4c.csv")
+x$Treatment2<-factor(x$Treatment, levels=c("Trp - ", "Ind", "Ind+Bic"))
+#subset values for each gene for TukeyHSD analysis
+CTL0174<-subset(x, Gene%in%c("CTL0174"))
+GroEL_1<-subset(x, Gene%in%c("GroEL_1"))
+OmpA<-subset(x, Gene%in%c("OmpA"))
+YtgCR<-subset(x, Gene%in%c("YtgCR"))
+YtgD<-subset(x, Gene%in%c("YtgD:YtgA"))
+#compute analysis of variance and assign to variable
+ctlaov<-aov(Value~Treatment, data=CTL0174)
+#call aov results
+summary(ctlaov)
+#compute Tukey HSD
+TukeyHSD(x=ctlaov)
+#repeat for each gene
+groaov<-aov(Value~Treatment, data=GroEL_1)
+summary(groaov)
+TukeyHSD(x=groaov)
+ompaov<-aov(Value~Treatment, data=OmpA)
+summary(ompaov)
+TukeyHSD(x=ompaov)
+ytgcaov<-aov(Value~Treatment, data=YtgCR)
+summary(ytgcaov)
+TukeyHSD(x=ytgcaov)
+ytgdaov<-aov(Value~Treatment, data=YtgD)
+summary(ytgdaov)
+TukeyHSD(x=ytgdaov)
+#Plot each gene individually w/ annotated significance for TukeyHSD
+#CTL0174
+ggbarplot(CTL0174, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("darkorchid4", "darkorchid3", "darkorchid2"), title="CTL0174") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=CTL0174, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("Trp - ", "Ind"), c("Trp - ", "Ind+Bic"), c("Ind", "Ind+Bic")), annotation=c("ns", "ns", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#YtgCR
+ggbarplot(YtgCR, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("darkorchid4", "darkorchid3", "darkorchid2"), title="YtgCR") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=YtgCR, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("Trp - ", "Ind"), c("Trp - ", "Ind+Bic"), c("Ind", "Ind+Bic")), annotation=c("***", "***", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#GroEL_1
+ggbarplot(GroEL_1, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("darkorchid4", "darkorchid3", "darkorchid2"), title="GroEL_1") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=GroEL_1, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("Trp - ", "Ind"), c("Trp - ", "Ind+Bic"), c("Ind", "Ind+Bic")), annotation=c("ns", "ns", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#OmpA
+ggbarplot(OmpA, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("darkorchid4", "darkorchid3", "darkorchid2"), title="OmpA") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=OmpA, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("Trp - ", "Ind"), c("Trp - ", "Ind+Bic"), c("Ind", "Ind+Bic")), annotation=c("*", "*", "ns"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#YtgD:YtgA
+ggbarplot(YtgD, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("darkorchid4", "darkorchid3", "darkorchid2"), title="YtgD:YtgA") + scale_y_continuous(limits=c(0, 2.2), expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=YtgD, x="Treatment2", y="Value", colour="black") + geom_signif(comparisons=list(c("Trp - ", "Ind"), c("Trp - ", "Ind+Bic"), c("Ind", "Ind+Bic")), annotation=c("***", "***", "*"), y_position = c(1.7, 1.9, 2.1)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+```

@@ -1,0 +1,32 @@
+---
+title: "Supplementary Figure 6"
+author: "Nick Pokorzynski"
+date: "4/17/2020"
+output: word_document
+---
+
+```{r}
+#Supplementary Figure 6
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 7")
+library(ggplot2)
+library(ggpubr)
+x<-read.csv("SuppFig7.csv")
+#subset values for each gene for statistical analysis
+CTL0174<-subset(x, Gene%in%c("CTL0174"))
+GroEL_1<-subset(x, Gene%in%c("GroEL_1"))
+OmpA<-subset(x, Gene%in%c("OmpA"))
+YtgD<-subset(x, Gene%in%c("YtgD:YtgA"))
+YtgCR<-subset(x, Gene%in%c("YtgCR"))
+#compute t-test w/ Welch's correction for unequal variance
+t.test(Value~Treatment, data=CTL0174)
+t.test(Value~Treatment, data=GroEL_1)
+t.test(Value~Treatment, data=OmpA)
+t.test(Value~Treatment, data=YtgD)
+t.test(Value~Treatment, data=YtgCR)
+#factor "Treatment" levels
+x$Treatment2<-factor(x$Treatment, levels=c("UTD", "Bic"))
+#factor "Gene" levels
+x$Gene2<-factor(x$Gene, levels=c("GroEL_1", "OmpA", "CTL0174", "YtgD:YtgA", "YtgCR"))
+#barplot faceted by Gene with Welch's t-test for unequal variance 
+ggbarplot(x, x="Treatment2", y="Value", add="mean_sd", color="black", fill="Treatment2", palette=c("firebrick4", "firebrick3"), facet.by="Gene2", ncol=5) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=x, x="Treatment2", y="Value", colour="black") + stat_compare_means(comparisons=list(c("UTD", "Bic")), label="p.signif", method="t.test", label.y=1.25) 
+```

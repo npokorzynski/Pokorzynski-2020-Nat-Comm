@@ -1,0 +1,33 @@
+---
+title: "Figure 2"
+author: "Nick Pokorzynski"
+date: "4/15/2020"
+output: word_document
+---
+
+```{r}
+#Fig2e
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 2")
+library(ggplot2)
+library(ggpubr)
+sum<-read.csv("Fig2e.csv")
+www<-subset(sum, ID%in%c("WWW"))
+wilcox.test(Mean~Treatment, data=www)
+yyf<-subset(sum, ID%in%c("YYF"))
+wilcox.test(Mean~Treatment, data=yyf)
+sum$Treatment2<-factor(sum$Treatment, levels=c("Trp+", "Trp-"))
+ggviolin(sum, x="Treatment2", y="Mean", add='median', facet.by='ID', fill="Treatment2", palette=c("dodgerblue4", "dodgerblue1")) + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("Trp+", "Trp-")), label="p.signif", method="wilcox.test", label.y=1800) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend')
+```
+```{r}
+#Fig 2f
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 2")
+library(ggplot2)
+library(ggpubr)
+sum<-read.csv("Fig2f.csv")
+www<-subset(sum, ID%in%c("WWW"))
+wilcox.test(Mean~Treatment, data=www)
+yyf<-subset(sum, ID%in%c("YYF"))
+wilcox.test(Mean~Treatment, data=yyf)
+sum$Treatment2<-factor(sum$Treatment, levels=c("Trp+", "Trp-"))
+ggviolin(sum, x="Treatment2", y="Mean", add='median', facet.by='ID', fill="Treatment2", palette=c("slategray4", "slategray1")) + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("Trp+", "Trp-")), label="p.signif", method="wilcox.test", label.y=1800) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend')
+```

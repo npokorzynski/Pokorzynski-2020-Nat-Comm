@@ -1,0 +1,40 @@
+---
+title: "Figure 5"
+author: "Nick Pokorzynski"
+date: "4/16/2020"
+output: word_document
+---
+
+```{r}
+#Fig5b
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 5")
+library(ggplot2)
+library(ggpubr)
+bpd<-read.csv("Fig5c.csv")
+p<-ggdensity(bpd, x="Position", fill="Promoter", y="..scaled..", position="stack", palette=c("dodgerblue3"), title="24 Bpd", color="Promoter") + scale_y_continuous(name="Count Density", expand=expand_scale(mult=c(0,0.1))) + theme(panel.border=element_rect(colour="black", fill="NA", size=1), axis.text=element_text(color='black')) + xlab(label="C. trachomatis L2 434/Bu Genome Position") + scale_x_continuous(limits=c(511300, 512100)) + theme(plot.title=element_text(hjust='0.5'))
+ggpar(p, legend=c("right"))
+```
+```{r}
+#Fig5c
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 5")
+library(ggplot2)
+library(ggpubr)
+trp<-read.csv("Fig5d.csv")
+p<-ggdensity(trp, x="Position", y="..scaled..", fill="Promoter", position="stack", palette=c("violetred4", "violetred1"), title="24 Trp-", color="Promoter") + scale_y_continuous(name="Count Density", expand=expand_scale(mult=c(0,0.1))) + theme(panel.border=element_rect(colour="black", fill="NA", size=1), axis.text=element_text(color='black')) + xlab(label="C. trachomatis L2 434/Bu Genome Position") + scale_x_continuous(limits=c(511300, 512100)) + theme(plot.title=element_text(hjust='0.5'))
+ggpar(p, legend=c("right"))
+```
+
+```{r}
+#Fig5d
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 5")
+library(ggplot2)
+library(ggpubr)
+library(ggsignif)
+p<-read.csv("Fig5a.csv")
+paov<-aov(Value~ID, data=p)
+summary(paov)
+TukeyHSD(x=paov)
+p$ID2<-factor(p$ID, levels=c("24 hpi", "18+6Bpd", "18+6Trp-", "24Bpd", "24Trp-"))
+p$Treatment2<-factor(p$Treatment, levels=c("Mock", "BPD", "Trp"))
+ggbarplot(p, x="ID2", y="Value", add="mean_sd", fill="Treatment2", palette=c("lightsteelblue4", "lightsteelblue1", "lightsteelblue3")) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="PtrpBA Activity (trpB:trpR)") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=p, x="ID2", y="Value", colour="black") + geom_signif(comparisons=list(c("24 hpi", "18+6Bpd"), c("24 hpi", "18+6Trp-"), c("24 hpi", "24Bpd"), c("24 hpi", "24Trp-")), annotation=c("**", "*", "**", "*"), y_position=c(3.5, 4, 4.5, 5)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5')) + geom_hline(yintercept=1, linetype=2)
+```

@@ -1,0 +1,22 @@
+---
+title: "Figure 3"
+author: "Nick Pokorzynski"
+date: "4/15/2020"
+output: word_document
+---
+
+```{r}
+#Fig3b
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Figure 3")
+library(ggplot2)
+library(ggpubr)
+fig3<-read.csv("Fig3b,d.csv")
+an<-subset(fig3, Treatment%in%c("AN3365"))
+t.test(Value~ID, data=an)
+ggbarplot(an, x="ID", y="Value", add="mean_sd", fill="ID", palette=c("orchid4", "orchid1"), title="AN3365") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="Normalized Inhibition (%)") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=an, x="ID", y="Value", colour="black") + geom_signif(comparisons=list(c("WWW", "YYF")), annotation="ns", y_position=150) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+#Fig3d
+ind<-subset(fig3, Treatment%in%c("Indolmycin"))
+t.test(Value~ID, data=ind)
+ggbarplot(ind, x="ID", y="Value", add="mean_sd", fill="ID", palette=c("mediumpurple4", "mediumpurple1"), title="Indolmycin") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="Normalized Inhibition (%)") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=ind, x="ID", y="Value", colour="black") + geom_signif(comparisons=list(c("WWW", "YYF")), annotation="***", y_position=150) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+```
+

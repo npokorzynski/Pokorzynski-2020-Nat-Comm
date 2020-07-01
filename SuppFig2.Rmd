@@ -1,0 +1,43 @@
+---
+title: "Supplementary Figure 2"
+author: "Nick Pokorzynski"
+date: "4/16/2020"
+output: word_document
+---
+
+```{r}
+#Supplementary Fig 2b
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 2")
+library(ggplot2)
+library(ggpubr)
+gdna<-read.csv("SuppFig2b.csv")
+gdna$Treatment2<-factor(gdna$Treatment, levels=c("Mock", "Bpd", "Trp", "Bpd + Trp"))
+gdna$ID2<-factor(gdna$ID, levels=c("24 hpi", "18+6 Bpd", "18+6 Trp-", "18+6 Bpd + Trp-"))
+gdnaaov<-aov(Value~ID, data=gdna)
+summary(gdnaaov)
+TukeyHSD(x=gdnaaov)
+ggbarplot(gdna, x="ID2", y="Log10_Value", add="mean_sd", fill="Treatment2", palette=c("darkseagreen4", "darkseagreen", "darkseagreen3", "darkseagreen1")) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="Log10 Genome Equivalents/ng gDNA") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=gdna, x="ID2", y="Log10_Value", colour="black") + geom_signif(comparisons=list(c("24 hpi", "18+6 Bpd"), c("24 hpi", "18+6 Trp-"), c("24 hpi", "18+6 Bpd + Trp-")), annotation=c("p = 0.0576", "p = 0.0543", "*"), y_position=c(5.5,6.5,7.5)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1))
+```
+
+```{r}
+#Supplementary Fig 2c
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 2")
+library(ggplot2)
+library(ggpubr)
+rt<-read.csv("SuppFig2c.csv")
+rt$ID2<-factor(rt$ID, levels=c("24 hpi", "18+6 Bpd", "18+6 Trp-", "18+6 Bpd + Trp-"))
+rt$Treatment2<-factor(rt$Treatment, levels=c("Mock", "Bpd", "Trp", "Bpd + Trp"))
+#euo
+euo<-subset(rt, Gene%in%c("euo"))
+euoaov<-aov(Log2_Value~ID, data=euo)
+summary(euoaov)
+TukeyHSD(x=euoaov)
+ggbarplot(euo, x="ID2", y="Log2_Value", add="mean_sd", fill="Treatment2", palette=c("darkseagreen4", "darkseagreen", "darkseagreen3", "darkseagreen1"), title="euo") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="Log2 Transcript Expression") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=euo, x="ID2", y="Log2_Value", colour="black") + geom_signif(comparisons=list(c("18+6 Trp-", "18+6 Bpd + Trp-"), c("24 hpi", "18+6 Bpd"), c("24 hpi", "18+6 Trp-"), c("24 hpi", "18+6 Bpd + Trp-")), annotation=c("ns", "ns", "ns", "ns"), y_position=c(10, 11, 12, 13)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5', face="italic"))
+#omcB
+omcB<-subset(rt, Gene%in%c("omcB"))
+omcBaov<-aov(Log2_Value~ID, data=omcB)
+summary(omcBaov)
+TukeyHSD(x=omcBaov)
+ggbarplot(omcB, x="ID2", y="Log2_Value", add="mean_sd", fill="Treatment2", palette=c("darkseagreen4", "darkseagreen", "darkseagreen3", "darkseagreen1"), title="omcB") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="Log2 Transcript Expression") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + geom_exec(geomfunc=geom_point, data=omcB, x="ID2", y="Log2_Value", colour="black") + geom_signif(comparisons=list(c("18+6 Trp-", "18+6 Bpd + Trp-"), c("24 hpi", "18+6 Bpd"), c("24 hpi", "18+6 Trp-"), c("24 hpi", "18+6 Bpd + Trp-")), annotation=c("ns", "ns", "ns", "ns"), y_position=c(10, 11, 12, 13)) + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5', face="italic"))
+```
+

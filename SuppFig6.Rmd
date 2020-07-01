@@ -1,0 +1,21 @@
+---
+title: "Supplementary Figure 6"
+author: "Nick Pokorzynski"
+date: "4/17/2020"
+output: word_document
+---
+
+```{r}
+#Supplementary Figure 5
+setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 6")
+library(ggplot2)
+library(ggpubr)
+x<-read.csv("SuppFig6.csv")
+OmpA<-subset(x, Gene%in%c("OmpA"))
+YtgCR<-subset(x, Gene%in%c("YtgCR"))
+t.test(Value~Treatment, data=OmpA)
+t.test(Value~Treatment, data=YtgCR)
+ggbarplot(YtgCR, x="Treatment", y="Value", add=c("mean_sd", "point"), color="black", fill="Treatment", palette=c("steelblue4", "steelblue2"), title="YtgCR") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5')) + geom_signif(comparisons=list(c("24 hpi", "24h -Trp")), annotation="ns", y_position=1.25)
+ggbarplot(OmpA, x="Treatment", y="Value", add=c("mean_sd", "point"), color="black", fill="Treatment", palette=c("steelblue4", "steelblue2"), title="OmpA") + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + ylab(label="3'-to-5' Ratio") + rremove("legend") + theme(axis.text.x=element_text(angle=45, hjust=1)) + rremove("xlab") + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5')) + geom_signif(comparisons=list(c("24 hpi", "24h -Trp")), annotation="ns", y_position=1.25)
+```
+
