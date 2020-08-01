@@ -2,13 +2,11 @@
 title: "Supplementary Figure 4c,d"
 author: "Nick Pokorzynski"
 date: "6/30/2020"
-output:
-  pdf_document: default
-  word_document: default
+output: word_document
 ---
 
 ```{r}
-setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 4c-d")
+setwd("~/Documents/Carabeo Lab/R Code/Revisions/Supplementary Figure 4c-d")
 library(ggplot2)
 library(ggpubr)
 atc<-read.csv("SuppFig4cd_06302020.csv")
@@ -17,6 +15,6 @@ www<-subset(atc, ID%in%c("WWW"))
 wilcox.test(Mean~Treatment, data=www)
 yyf<-subset(atc, ID%in%c("YYF"))
 wilcox.test(Mean~Treatment, data=yyf)
-ggboxplot(www, x="Treatment2", y="Mean", fill="Treatment2", palette=c("lightyellow3", "lightyellow"), title="WWW") + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("aTc+", "aTc-")), label="p.signif", method="wilcox.test", label.y=1500) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend') + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
-ggboxplot(yyf, x="Treatment2", y="Mean", fill="Treatment2", palette=c("lightyellow3", "lightyellow"), title="YYF") + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("aTc+", "aTc-")), label="p.signif", method="wilcox.test", label.y=1500) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend') + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+ggviolin(www, x="Treatment2", y="Mean", add="median", fill="Treatment2", palette=c("lightyellow3", "lightyellow"), title="WWW") + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("aTc+", "aTc-")), label="p.signif", method="wilcox.test", label.y=1600) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend') + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
+ggviolin(yyf, x="Treatment2", y="Mean", add="median", fill="Treatment2", palette=c("lightyellow3", "lightyellow"), title="YYF") + ylab(label="MFI") + rremove('xlab') + stat_compare_means(comparisons=list(c("aTc+", "aTc-")), label="p.signif", method="wilcox.test", label.y=1600) + scale_y_continuous(expand=expand_scale(mult=c(0.1,0.1))) + rremove('legend') + theme(line=element_line(size=1, colour="black"), panel.border=element_rect(colour="black", fill="NA", size=1)) + theme(plot.title=element_text(hjust='0.5'))
 ```

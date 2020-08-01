@@ -1,21 +1,24 @@
 ---
 title: "Supplementary Figure 3"
 author: "Nick Pokorzynski"
-date: "6/28/2020"
+date: "8/1/2020"
 output: word_document
 ---
 
 ```{r}
-setwd("~/Documents/Carabeo Lab/R Code/Paper 2/Supplementary Figure 3")
+setwd("~/Documents/Carabeo Lab/R Code/Revisions/Figure 2b")
 library(ggplot2)
 library(ggpubr)
-ib<-read.csv("SFig3_06282020.csv")
+ib<-read.csv("IB_06282020.csv")
 ib$Timepoint2<-factor(ib$Timepoint, levels=c("6h", "12h", "24h"))
 ib$Treatment2<-factor(ib$Treatment, levels=c("Trp+", "Trp-", "Ind+Trp-"))
 ytgr<-subset(ib, Analyte%in%c("YtgR"))
 ompa<-subset(ib, Analyte%in%c("OmpA"))
+groel<-subset(ib, Analyte%in%c("GroEL_2"))
 p<-ggbarplot(ytgr, x="Timepoint2", y="Ratio", fill="Treatment2", position=position_dodge(), stat="identity", title="YtgR", palette=c("steelblue1", "steelblue3", "steelblue4")) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + theme(panel.border=element_rect(colour="black", fill="NA", size=1), axis.text=element_text(color='black')) + xlab(label="Timepoint") + ylab(label="Band Intensity (AU)") + theme(plot.title=element_text(hjust='0.5')) + theme(legend.title=element_blank())
 ggpar(p, legend=c("right"))
 p<-ggbarplot(ompa, x="Timepoint2", y="Ratio", fill="Treatment2", position=position_dodge(), stat="identity", title="OmpA", palette=c("palegreen1", "palegreen3", "palegreen4")) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + theme(panel.border=element_rect(colour="black", fill="NA", size=1), axis.text=element_text(color='black')) + xlab(label="Timepoint") + ylab(label="Band Intensity (AU)") + theme(plot.title=element_text(hjust='0.5')) + theme(legend.title=element_blank())
+ggpar(p, legend=c("right"))
+p<-ggbarplot(groel, x="Timepoint2", y="Ratio", fill="Treatment2", position=position_dodge(), stat="identity", title="GroEL_2", palette=c("slategray1", "slategray3", "slategray4")) + scale_y_continuous(expand=expand_scale(mult=c(0,0.1))) + theme(panel.border=element_rect(colour="black", fill="NA", size=1), axis.text=element_text(color='black')) + xlab(label="Timepoint") + ylab(label="Band Intensity (AU)") + theme(plot.title=element_text(hjust='0.5')) + theme(legend.title=element_blank())
 ggpar(p, legend=c("right"))
 ```
